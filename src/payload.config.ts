@@ -17,6 +17,7 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import brevoAdapter from './utils/brevoAdapter'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -58,6 +59,7 @@ export default buildConfig({
       ],
     },
   },
+  email: brevoAdapter(),
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: postgresAdapter({
@@ -77,9 +79,9 @@ export default buildConfig({
       path: '/health',
       method: 'get',
       handler: async (req) => {
-        return new Response('OK', { status: 200 });
-      }
-    }
+        return new Response('OK', { status: 200 })
+      },
+    },
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
