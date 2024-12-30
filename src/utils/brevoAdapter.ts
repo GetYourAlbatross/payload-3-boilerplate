@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { SendEmailOptions } from 'payload'
+import { EmailAdapter, SendEmailOptions } from 'payload'
 
 const brevoAdapter = (): EmailAdapter => {
   const adapter = () => ({
     name: 'brevo',
     defaultFromName: process.env.BREVO_SENDER_NAME as string,
     defaultFromEmail: process.env.BREVO_SENDER_EMAIL as string,
+    defaultFromAddress: process.env.BREVO_SENDER_EMAIL as string,
     sendEmail: async (message: SendEmailOptions): Promise<unknown> => {
       if (!process.env.BREVO_EMAILS_ACTIVE) {
         console.log('Brevo emails are not active')
@@ -17,7 +18,7 @@ const brevoAdapter = (): EmailAdapter => {
           method: 'POST',
           url: 'https://api.brevo.com/v3/smtp/email',
           headers: {
-            'api-key': process.env.BREVO_API_KEY as String,
+            'api-key': process.env.BREVO_API_KEY as string,
             'Content-Type': 'application/json',
             Accept: 'application/json',
           },
